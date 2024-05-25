@@ -44,11 +44,8 @@ const PreJoin = dynamic(
   { ssr: false }
 );
 
-interface HomeProps {
-  name: string;
-}
 
-const Home = ({ name }: HomeProps) => {
+const Home = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const roomName = searchParams?.get("name")!;
