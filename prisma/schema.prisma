@@ -1,0 +1,126 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                       String     @id @default(uuid())
+  username                 String     @unique
+  password                 String? 
+  level                    Int? @default(0)
+  role                     Int   @default(0)
+  status                   Int?    @default(0)
+  imageUrl                 String?
+  bio                      String?
+  lastLogin                DateTime?
+  startedWorking           DateTime?
+  workExperience           Int?  @default(0)
+  createdAt                DateTime   @default(now())
+  updatedAt                DateTime   @updatedAt
+  blockedBy                Block[]    @relation("BlockedBy")
+  blocking                 Block[]    @relation("Blocking")
+  following                Follow[]   @relation("Following")
+  followedBy               Follow[]   @relation("FollowedBy")
+  inventory                Inventory?
+  news         News[]     @relation("AuthorNews")
+  meet                     Meet?
+  tasks        Task[]     @relation("UserTasks")
+}
+
+model News {
+  id        String   @id @default(uuid())
+  authorId String?
+  title     String
+  name      String
+  imageUrl  String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  author    User?    @relation("AuthorNews", fields: [authorId], references: [id], onDelete: Cascade)
+  @@unique([authorId])
+  @@index([authorId])
+}
+
+model Item {
+  name        String     @unique
+  description String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  inventoryId String?
+  imageUrl    String
+  id          String     @id @default(uuid())
+  inventory   Inventory? @relation(fields: [inventoryId], references: [id])
+}
+
+model Inventory {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  quantity  Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items     Item[]
+
+  @@index([userId])
+}
+
+
+model Task {
+  id          String     @id @default(uuid())
+  title       String
+  description String?
+  status      Int?     @default(0)
+  userId      String
+  startTime    DateTime? 
+  endTime      DateTime?
+  timeSpent    Float?    
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  user        User       @relation("UserTasks", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Follow {
+  id          String   @id @default(uuid())
+  followerId  String
+  followingId String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  follower    User     @relation("Following", fields: [followerId], references: [id], onDelete: Cascade)
+  following   User     @relation("FollowedBy", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId])
+  @@index([followerId])
+  @@index([followingId])
+}
+
+model Block {
+  id        String @id @default(uuid())
+  blockerId String
+  blockedId String
+  blocked   User   @relation("BlockedBy", fields: [blockedId], references: [id], onDelete: Cascade)
+  blocker   User   @relation("Blocking", fields: [blockerId], references: [id], onDelete: Cascade)
+
+  @@unique([blockerId, blockedId])
+  @@index([blockerId])
+  @@index([blockedId])
+}
+
+model Meet {
+  id                  String   @id @default(uuid())
+  roomId           String?
+  userId              String   @unique
+  isLive      Boolean
+  startTime   DateTime?
+  endTime     DateTime?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
