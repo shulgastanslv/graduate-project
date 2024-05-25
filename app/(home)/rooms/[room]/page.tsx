@@ -217,7 +217,8 @@ const ActiveRoom = ({ roomName, userChoices, onLeave }: ActiveRoomProps) => {
         <LiveKitRoom
           room={room}
           token={token}
-          style={{ background: "white", color: "white" }}
+          style={{ background: "white", color: "white", accentColor: "white", outlineColor: "black",
+           }}
           serverUrl={liveKitUrl}
           connectOptions={connectOptions}
           video={userChoices.videoEnabled}

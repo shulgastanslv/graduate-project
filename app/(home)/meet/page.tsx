@@ -159,6 +159,8 @@ function CustomConnectionTab({ label }: { label: string }) {
 const Home = () => {
   return (
     <main className="grid justify-center place-content-center justify-items-center pb-24 overflow-auto h-screen">
+      <Tabs defaultValue="demo" className="w-[400px]">
+        <TabsContent value="demo">
           <Card className="bg-transparent">
             <CardHeader>
               <CardTitle>Звонки</CardTitle>
@@ -171,6 +173,8 @@ const Home = () => {
               <DemoMeetingTab label="Демо" />
             </CardContent>
           </Card>
+        </TabsContent>
+      </Tabs>
     </main>
   );
 };
