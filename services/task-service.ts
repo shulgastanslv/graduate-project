@@ -1,5 +1,6 @@
 import { db } from "@/db";
 import { TaskStatus } from "@/lib/status";
+import { getSelf } from "./session-service";
 
 export const getTaskComplete = async (userId: string) => {
   const tasks = await db.task.findMany({
@@ -95,8 +96,13 @@ export const getTasksHours = async (userId: string) => {
 
 
 export const getAllTasks = async () => {
+
+  const self = await getSelf()
   
   const tasks = await db.task.findMany({
+    where: {
+      userId: self?.id,
+    },
     select : {
       id : true,
       title: true,
