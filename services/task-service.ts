@@ -39,6 +39,7 @@ export const getTasksDays = async (userId: string) => {
   const tasks = await db.task.findMany({
     where: {
       userId: userId,
+      status: TaskStatus.Complete,
       startTime: {
         not: null,
       },

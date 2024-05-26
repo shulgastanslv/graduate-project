@@ -114,7 +114,7 @@ export const LoginForm = () => {
                     <FormSuccess message={success}/>
                     <Button
                         disabled={isPending}
-                        variant="secondary"
+                        variant="default"
                         type="submit"
                         className="w-full"
                     >

@@ -59,7 +59,7 @@ export default async function Home() {
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-      <div className="grid bg-transparent grid-cols-2 gap-5">
+      <div className="grid bg-transparent grid-cols-3 gap-5">
         <Card className="bg-transparent">
           <CardHeader>
             <CardTitle>Пользователи</CardTitle>
@@ -187,15 +187,9 @@ export default async function Home() {
             </div>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Текущие видеовстречи</CardTitle>
-          </CardHeader>
+        <Card className="border-none bg-transparent shadow-none">
           <CardContent>
-            <div className="grid grid-cols-1 gap-4">
-              {meets.length == 0 && (
-                <p className="text-base opacity-50">Видеовстреч пока нет.</p>
-              )}
+            <div className="grid grid-cols-1 gap-4 items-center justify-center">
               {meets.map((meeting, index) => (
                 <MeetItem
                   key={index}

@@ -16,8 +16,10 @@ const NewsAdminPage = async () => {
   }));
 
   return (
-    <div className="w-full h-full flex flex-col gap-5 items-center pt-14 text-muted-foreground justify-center">
-      <NewsDataTable columns={columnsNewsDt} data={formattedDataUsers} />
+    <div>
+      <div className="flex flex-col p-6 w-full">
+        <NewsDataTable columns={columnsNewsDt} data={formattedDataUsers} />
+      </div>
     </div>
   );
 };

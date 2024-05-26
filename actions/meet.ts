@@ -29,6 +29,8 @@ export const deleteMeet = async () => {
 
     const res = await getMeetById(self?.id!)
 
+    await setStatusById(self?.id!, UserStatus.Away)
+
     await endMeet(res?.roomId!)
 
     if(!res) {
