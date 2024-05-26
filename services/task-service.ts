@@ -94,7 +94,6 @@ export const getTasksHours = async (userId: string) => {
 };
 
 
-
 export const getAllTasks = async () => {
 
   const self = await getSelf()
