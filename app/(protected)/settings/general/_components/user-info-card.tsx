@@ -88,7 +88,6 @@ export const UserInfoCard = ({}: UserInfoCard) => {
         .then(() => {
           toast.success("Настройки пользователя были обновлены!");
           setError("");
-          logout();
         })
         .catch(() => {
           toast.error("Что-то пошло не так!");
