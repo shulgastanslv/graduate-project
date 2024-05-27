@@ -24,7 +24,7 @@ export const createNews = async (values: z.infer<typeof NewsScheme>) => {
 
     if (!user) {
         return {error: "Такого пользователя нет!"};
-    }
+    } 
 
     await db.news.create({
         data: {

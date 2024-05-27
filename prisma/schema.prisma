@@ -33,7 +33,7 @@ model User {
 
 model News {
   id        String   @id @default(uuid())
-  authorId String?
+  authorId String? 
   title     String
   name      String
   imageUrl  String
@@ -41,7 +41,6 @@ model News {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   author    User?    @relation("AuthorNews", fields: [authorId], references: [id], onDelete: Cascade)
-  @@unique([authorId])
   @@index([authorId])
 }
 

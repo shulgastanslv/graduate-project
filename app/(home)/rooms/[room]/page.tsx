@@ -55,7 +55,7 @@ const Home = () => {
 
   const preJoinDefaults = React.useMemo(() => {
     return {
-      username: "Test",
+      username: user?.name || "User",
       videoEnabled: false,
       audioEnabled: false,
     };
