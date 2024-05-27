@@ -14,6 +14,17 @@ export const getTaskComplete = async (userId: string) => {
 };
 
 
+export const getTaskById = async (id: string) => {
+  const task = await db.task.findUnique({
+    where: {
+      id: id,
+    },
+  });
+
+  return task;
+};
+
+
 export const getTaskNotStarted = async (userId: string) => {
   const tasks = await db.task.findMany({
     where: {

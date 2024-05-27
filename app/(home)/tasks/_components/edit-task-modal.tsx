@@ -1,6 +1,12 @@
 "use client";
 
-import React, { ElementRef, useRef, useState, useTransition } from "react";
+import React, {
+  ElementRef,
+  useEffect,
+  useRef,
+  useState,
+  useTransition,
+} from "react";
 
 import {
   Dialog,
@@ -38,11 +44,28 @@ import dynamic from "next/dynamic";
 
 import * as commands from "@uiw/react-md-editor/commands";
 import { Description } from "@radix-ui/react-dialog";
-import { createTask } from "@/actions/task";
+import { createTask, updateTask } from "@/actions/task";
+import { Edit, EditIcon } from "lucide-react";
+import { getTaskById } from "@/services/task-service";
 
-interface CreateTaskModalProps {}
+interface EditTaskModalProps {
+  title?: string;
+  description?: string | null;
+  endTime?: Date | null;
+  taskId: string;
+}
 
-export const CreateTaskModal = ({}: CreateTaskModalProps) => {
+interface Task {
+  id?: string;
+  title?: string;
+  description?: string | null;
+  startTime?: Date | null;
+  endTime?: Date | null;
+  timeSpent?: number;
+}
+
+export const EditTaskModal = ({ title, description, endTime, taskId }: EditTaskModalProps) => {
+  const [task, setTask] = useState(null);
   const closeRef = useRef<ElementRef<"button">>(null);
   const router = useRouter();
   const user = useCurrentUser()!;
@@ -55,17 +78,26 @@ export const CreateTaskModal = ({}: CreateTaskModalProps) => {
   const form = useForm<z.infer<typeof TaskScheme>>({
     resolver: zodResolver(TaskScheme),
     defaultValues: {
-      title: "",
-      description: "",
-      dueDate: "",
+      title: title,
+      description: description!,
+      dueDate: endTime?.toLocaleDateString()!,
     },
   });
 
   const onSubmit = (values: z.infer<typeof TaskScheme>) => {
     setError("");
     setSuccess("");
+
+    const task: Task = { id: taskId };
+    if (values.title) task.title = values.title!;
+    if (values.description) task.description = values.description!;
+    task.startTime = new Date()!;
+    if (values.dueDate) task.endTime = new Date(values.dueDate)!;
+    task.timeSpent =
+      (task?.endTime!.getTime() - task.startTime.getTime()) / (1000 * 60 * 60); // time in hours
+
     startTransition(() => {
-      createTask(values).then((data) => {
+      updateTask(task).then((data: any) => {
         setError(data.error);
         setSuccess(data.success);
         router.refresh();
@@ -73,12 +105,20 @@ export const CreateTaskModal = ({}: CreateTaskModalProps) => {
     });
   };
 
+  const getCurrentDate = () => {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+    const dd = String(today.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+};
+
   // @ts-ignore
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="secondary" size="sm" className="ml-auto">
-          Добавить задачу
+        <Button variant="ghost" size="sm" className="ml-auto">
+          <Edit className="bg-transparent w-4 h-4 " />
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-4xl h-auto">
@@ -105,7 +145,7 @@ export const CreateTaskModal = ({}: CreateTaskModalProps) => {
                   </FormItem>
                 )}
               />
-               <FormField
+              <FormField
                 control={form.control}
                 name="description"
                 render={({ field }) => (
@@ -122,23 +162,24 @@ export const CreateTaskModal = ({}: CreateTaskModalProps) => {
                   </FormItem>
                 )}
               />
-               <FormField
+              <FormField
                 control={form.control}
                 name="dueDate"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Время выполнения до</FormLabel>
                     <FormControl>
-                     <Input
+                      <Input
                         {...field}
                         disabled={isPending}
-                        type="date"
+                        type="date" 
+                        min={getCurrentDate()}
                         value={
                           field.value
                             ? new Date(field.value).toISOString().split("T")[0]
                             : ""
                         }
-                        ></Input>
+                      ></Input>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -147,8 +188,8 @@ export const CreateTaskModal = ({}: CreateTaskModalProps) => {
             </div>
             <FormError message={error} />
             <FormSuccess message={success} />
-            <Button disabled={isPending} type="submit" variant="default" className="w-full">
-              Добавить
+            <Button disabled={isPending} type="submit" className="w-full">
+              Изменить
             </Button>
           </form>
         </Form>
@@ -156,3 +197,23 @@ export const CreateTaskModal = ({}: CreateTaskModalProps) => {
     </Dialog>
   );
 };
+
+function PlusIcon(props: any) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M5 12h14" />
+      <path d="M12 5v14" />
+    </svg>
+  );
+}

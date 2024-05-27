@@ -1,41 +1,68 @@
-"use server"
+"use server";
 
+import { db } from "@/db";
 import { UserStatus } from "@/lib/status";
 import { createMeet, endMeet, getMeetById } from "@/services/meet-service";
 import { getSelf } from "@/services/session-service";
 import { setStatusById } from "@/services/user-service";
 import { randomUUID } from "crypto";
 
-export const startMeet = async (roomId : string) => {
+export const startMeet = async (roomId: string) => {
 
-    const id = randomUUID()
-    
-    const self = await getSelf()
+  const id = randomUUID();
 
-    const res = await createMeet(id, roomId, self?.id!)
+  const me = await getSelf();
 
-    await setStatusById(self?.id!, UserStatus.Online)
+  const res = await createMeet(id, roomId, me?.id!);
 
-    if(!res) {
-        return false
-    }
+  if (!res) {
+    return false;
+  }
 
-    return true;
+  const status = await db.user.update({
+    where: {
+        id : me?.id!,
+    },
+    data: {
+      status: 0,
+    },
+  });
+
+
+  if (!status) {
+    return false;
+  }
+
+  return true;
 };
 
 export const deleteMeet = async () => {
 
-    const self = await getSelf()
+  const me = await getSelf();
 
-    const res = await getMeetById(self?.id!)
+  console.log(me?.id)
 
-    await setStatusById(self?.id!, UserStatus.Away)
+  const res = await getMeetById(me?.id!);
 
-    await endMeet(res?.roomId!)
+  if (!res) {
+    return "Не удалось получить звонок";
+  }
 
-    if(!res) {
-        return false
-    }
+  const status = await db.user.update({
+    where: {
+      id : me?.id!,
+    },
+    data: {
+      status: 1,
+    },
+  });
 
-    return true;
+  
+  if (!status) {
+    return "Не удалось обновить статус!";
+  }
+
+  await endMeet(res?.roomId!);
+
+  return "Звонок завершен!";
 };

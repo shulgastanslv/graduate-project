@@ -3,22 +3,35 @@
 import qs from "query-string";
 import {useState} from "react";
 import {SearchIcon, X} from "lucide-react";
-import {useRouter} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 
 export const Search = () => {
+
     const router = useRouter();
     const [value, setValue] = useState("");
+    const pathname = usePathname()!; 
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (!value) return;
 
+        let searchUrl;
+        if (pathname === "/") {
+            searchUrl = "/search/";
+        } else if (pathname.startsWith("/tasks")) {
+            searchUrl = "/tasks/search";
+        } else if (pathname.startsWith("/news")) {
+            searchUrl = "/news/search";
+        } else {
+            searchUrl = "/search";
+        }
+
         const url = qs.stringifyUrl({
-            url: "/search",
+            url: searchUrl,
             query: {term: value},
         }, {skipEmptyString: true});
 
@@ -37,7 +50,7 @@ export const Search = () => {
             <Input
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
-                placeholder="Найти..."
+                placeholder="Найти пользователя, задачи, новости..."
                 className="rounded-r-none
         bg-transparent
         focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0"

@@ -39,9 +39,10 @@ import MeetItem from "./_components/meet-item";
 
 export default async function Home() {
   const user = await getSelf();
-  const onlineUsers = await getAllUsersByStatus(UserStatus.Online);
-  const awayUsers = await getAllUsersByStatus(UserStatus.Away);
-  const oflineUsers = await getAllUsersByStatus(UserStatus.Offline);
+
+  const onlineUsers = await getAllUsersByStatus(0);
+  const awayUsers = await getAllUsersByStatus(1);
+  const oflineUsers = await getAllUsersByStatus(2);
 
   const lessThanYearUsers = await getAllUsersWithWorkingTimeLessThanYear();
   const oneToThreeYearsUsers =
@@ -59,7 +60,7 @@ export default async function Home() {
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-      <div className="grid bg-transparent grid-cols-3 gap-5">
+      <div className="grid bg-transparent md:grid-cols-2 lg:grid-cols-3 gap-5">
         <Card className="bg-transparent">
           <CardHeader>
             <CardTitle>Пользователи</CardTitle>
@@ -187,20 +188,20 @@ export default async function Home() {
             </div>
           </CardContent>
         </Card>
-        <Card className="border-none bg-transparent shadow-none">
-          <CardContent>
-            <div className="grid grid-cols-1 gap-4 items-center justify-center">
-              {meets.map((meeting, index) => (
-                <MeetItem
-                  key={index}
-                  roomId={meeting.roomId!}
-                  title={meeting.user.username}
-                  time={meeting.startTime?.toLocaleString()!}
-                />
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+      </div>
+      <div>
+        <p>Текущие звонки</p>
+        {meets.length === 0 && (
+          <p className="opacity-50 text-base">Ничего не найдено.</p>
+        )}
+        {meets.map((meeting, index) => (
+          <MeetItem
+            key={index}
+            roomId={meeting.roomId!}
+            title={meeting.user.username}
+            time={meeting.startTime?.toLocaleString()!}
+          />
+        ))}
       </div>
     </main>
   );

@@ -38,12 +38,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { setStatusById } from "@/services/user-service";
+import { UserStatus } from "@/lib/status";
+import { toast } from "sonner";
 
 const PreJoin = dynamic(
   () => import("@livekit/components-react").then((mod) => mod.PreJoin),
   { ssr: false }
 );
-
 
 const Home = () => {
   const router = useRouter();
@@ -56,8 +58,8 @@ const Home = () => {
   const preJoinDefaults = React.useMemo(() => {
     return {
       username: user?.name || "User",
-      videoEnabled: false,
-      audioEnabled: false,
+      videoEnabled: true,
+      audioEnabled: true,
     };
   }, []);
 
@@ -74,12 +76,20 @@ const Home = () => {
   }, []);
 
   const onLeave = React.useCallback(async () => {
-    await deleteMeet();
-    router.push("/");
+    const result = await deleteMeet();
+    if (result != null) {
+      toast.success(result);
+      router.push("/");
+    } else {
+      toast.error("Ошибка! Не удалось завершить звонок!", result);
+    }
   }, [router]);
 
   return (
-    <main data-lk-theme="default">
+    <main
+      className="flex w-full h-full items-center justify-center m-auto"
+      data-lk-theme="default"
+    >
       {roomName && !Array.isArray(roomName) && preJoinChoices ? (
         <ActiveRoom
           roomName={roomName}
@@ -87,24 +97,18 @@ const Home = () => {
           onLeave={onLeave}
         ></ActiveRoom>
       ) : (
-        <div className="flex h-full w-full items-center justify-center m-0 pt-24">
-          <Card className="bg-transparent">
-            <CardHeader>
-              <CardTitle>Введите ваше ФИО</CardTitle>
-              <CardDescription>Введите ФИО которое будет видно другим участникам звонка</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <PreJoin
-                joinLabel="Войти"
-                style={{ background: "white", color: "white", width: "450px" }}
-                onError={onPreJoinError}
-                userLabel="Введите ФИО"
-                defaults={preJoinDefaults}
-                onSubmit={handlePreJoinSubmit}
-              ></PreJoin>
-            </CardContent>
-          </Card>
-        </div>
+        <Card className="bg-transparent">
+          <CardContent className="px-5 py-5">
+            <PreJoin
+              joinLabel="Войти"
+              style={{ background: "white", color: "white", width: "450px" }}
+              onError={onPreJoinError}
+              userLabel="Введите ФИО"
+              defaults={preJoinDefaults}
+              onSubmit={handlePreJoinSubmit}
+            ></PreJoin>
+          </CardContent>
+        </Card>
       )}
     </main>
   );
@@ -214,11 +218,15 @@ const ActiveRoom = ({ roomName, userChoices, onLeave }: ActiveRoomProps) => {
         <LiveKitRoom
           room={room}
           token={token}
-          style={{ background: "white", color: "white", accentColor: "white", outlineColor: "black",
-           }}
+          style={{
+            background: "white",
+            color: "white",
+            accentColor: "white",
+            outlineColor: "black",
+          }}
           serverUrl={liveKitUrl}
           connectOptions={connectOptions}
-          video={userChoices.videoEnabled}
+          video={true}
           audio={userChoices.audioEnabled}
           onDisconnected={onLeave}
         >

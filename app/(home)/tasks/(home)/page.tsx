@@ -1,9 +1,7 @@
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { CardContent, Card } from "@/components/ui/card";
 import { getAllTasks } from "@/services/task-service";
-import { CreateTaskModal } from "./create-task-moda";
-import Task, { TaskType } from "./task";
+import { CreateTaskModal } from "../_components/create-task-moda";
+import Task, { TaskType } from "../_components/task";
 
 const TasksPage = async () => {
   const tasks: TaskType[] = await getAllTasks();

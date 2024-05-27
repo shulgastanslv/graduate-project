@@ -20,7 +20,7 @@ const News = ({ news }: NewsProps) => {
   };
 
   return (
-    <div className="flex flex-col w-1/3 items-center justify-center m-auto pt-16">
+    <div className="flex flex-col items-center justify-center m-auto pt-16">
       <div className="w-auto">
         <ul>
           {news.map((newsItem: NewsItem) => (
@@ -29,9 +29,9 @@ const News = ({ news }: NewsProps) => {
               onClick={() => handleNewsClick(newsItem.id)}
               className="mb-10 cursor-pointer gap-5 hover:scale-105 transition-all"
             >
-              <Card>
+              <Card className="w-96">
                 <img
-                  className="rounded-t-lg object-cover w-full aspect-[16/9]"
+                  className="rounded-t-lg object-cover w-96 aspect-[16/9]"
                   height={225}
                   src={newsItem.imageUrl}
                   alt={newsItem.title}

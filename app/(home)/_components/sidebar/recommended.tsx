@@ -6,7 +6,7 @@ import {useSidebar} from "@/store/use-sidebar";
 
 import {UserItem, UserItemSkeleton} from "./user-item";
 
-interface RecommendedProps {
+export interface RecommendedProps {
     data: (User & {
         meet: { isLive: boolean } | null;
     })[];
@@ -15,6 +15,7 @@ interface RecommendedProps {
 export const Recommended = ({
                                 data,
                             }: RecommendedProps) => {
+                                
     const {collapsed} = useSidebar((state) => state);
 
     const showLabel = !collapsed && data.length > 0;

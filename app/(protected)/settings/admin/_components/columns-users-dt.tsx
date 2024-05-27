@@ -22,7 +22,7 @@ export type UserInfo = {
     lastLogin: Date | null;
     startedWorking: Date | null;
     workExperience: number | null;
-    createdAt: Date;
+    createdAt: string;
     updatedAt: Date;
 }
 
