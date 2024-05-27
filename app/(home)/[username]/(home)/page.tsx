@@ -14,6 +14,8 @@ interface UserPageProps {
 const UserPage = async ({
                             params
                         }: UserPageProps) => {
+
+                            
     const user = await getUserByUsername(params.username)!;
 
     const userInventory = await getInventoryByUserId(user?.id!);
