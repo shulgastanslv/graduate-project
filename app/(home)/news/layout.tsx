@@ -1,11 +1,11 @@
 import { Suspense } from "react";
 
-const NewsLayout = ({ children }: { children: React.ReactNode }) => {
+const RootNewsLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex h-full">
+    <div className="flex flex-col w-full items-center justify-center m-auto pt-16">
       {children}
     </div>
-  );
+  ); 
 };
 
-export default NewsLayout;
+export default RootNewsLayout;
