@@ -15,7 +15,7 @@ const MeetItem: React.FC<MeetItemProps> = ({ roomId, title, time}) => {
   const router = useRouter()
 
   function toMeet() {
-      router.push(`/rooms/${roomId}`)
+      router.push(`/rooms/?name=${roomId}`)
   }
 
   return (
