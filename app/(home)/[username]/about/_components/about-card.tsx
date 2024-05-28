@@ -9,7 +9,7 @@ interface AboutCardProps {
   hostIdentity: string;
   bio: string | null;
   level: string;
-  startedWorking: string;
+  startedWorking: Date;
   createdAt: Date;
   followedByCount: number;
 }
@@ -25,6 +25,13 @@ export const AboutCard = ({
 }: AboutCardProps) => {
   
   const self = useCurrentUser();
+
+  const formatDate = (format: Date) => {
+    const yyyy = format.getFullYear();
+    const mm = String(format.getMonth() + 1).padStart(2, "0");
+    const dd = String(format.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+  };
 
   const isHost = hostIdentity === self?.id!;
 
@@ -46,6 +53,7 @@ export const AboutCard = ({
         </div>
         <h2 className="text-base">Биография: {bio || "Никакой информации"}</h2>
         <h2 className="text-base">Позиция: {level || "Junior"}</h2>
+        <h2 className="text-base">Дата начала работы: {formatDate(startedWorking)}</h2>
       </div>
     </div>
   );

@@ -27,7 +27,7 @@ export const Following = ({
     return (
         <div>
             {!collapsed && (
-                <div className="pl-6 mb-4">
+                <div className="pl-6 mb-4 mt-4">
                     <p className="text-sm text-muted-foreground">
                         Отслеживаемые
                     </p>

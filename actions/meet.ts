@@ -8,7 +8,6 @@ import { setStatusById } from "@/services/user-service";
 import { randomUUID } from "crypto";
 
 export const startMeet = async (roomId: string) => {
-
   const id = randomUUID();
 
   const me = await getSelf();
@@ -21,13 +20,12 @@ export const startMeet = async (roomId: string) => {
 
   const status = await db.user.update({
     where: {
-        id : me?.id!,
+      id: me?.id!,
     },
     data: {
-      status: 0,
+      status: UserStatus.Online,
     },
   });
-
 
   if (!status) {
     return false;
@@ -37,32 +35,21 @@ export const startMeet = async (roomId: string) => {
 };
 
 export const deleteMeet = async () => {
+  
+  const self = await getSelf();
 
-  const me = await getSelf();
-
-  console.log(me?.id)
-
-  const res = await getMeetById(me?.id!);
+  const res = await getMeetById(self?.id!);
 
   if (!res) {
-    return "Не удалось получить звонок";
+    return false;
+  } else {
+    await endMeet(res?.roomId!);
   }
+  const status = await setStatusById(self?.id!, UserStatus.Away);
 
-  const status = await db.user.update({
-    where: {
-      id : me?.id!,
-    },
-    data: {
-      status: 1,
-    },
-  });
-
-  
   if (!status) {
-    return "Не удалось обновить статус!";
+    return false;
   }
 
-  await endMeet(res?.roomId!);
-
-  return "Звонок завершен!";
+  return true;
 };

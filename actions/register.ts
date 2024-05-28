@@ -8,7 +8,7 @@ import {UserLevel} from "@/lib/level"
 import {db} from "@/db";
 import {RegisterSchema} from "@/schemas";
 import {randomUUID} from "crypto";
-import {getUserByUsername} from "@/services/user-service";
+import {getUserByUsername, setStatusById} from "@/services/user-service";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
@@ -22,7 +22,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const existingUser = await getUserByUsername(username);
-
+    
     if (existingUser) {
         return {error: "Имя уже используется!"};
     }

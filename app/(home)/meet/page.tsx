@@ -25,6 +25,9 @@ import { createMeet } from "@/services/meet-service";
 import { randomUUID } from "crypto";
 import { startMeet } from "@/actions/meet";
 import { toast } from "sonner";
+import { CardStackIcon } from "@radix-ui/react-icons";
+import { Video, VideoIcon } from "lucide-react";
+import { CardWrapper } from "@/components/auth/card-wrapper";
 
 function DemoMeetingTab({ label }: { label: string }) {
   const router = useRouter();
@@ -50,11 +53,11 @@ function DemoMeetingTab({ label }: { label: string }) {
   };
 
   return (
-    <div className="flex flex-col justify-center gap-3 rounded-lg">
-      <Button variant="secondary" onClick={startMeeting}>
+    <div className="flex flex-col gap-3 rounded-lg">
+      <Button variant="default" onClick={startMeeting}>
         Начать
       </Button>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 mt-3">
         <div className="flex items-center space-x-2">
           <input
             id="use-e2ee"
@@ -63,16 +66,16 @@ function DemoMeetingTab({ label }: { label: string }) {
             checked={e2ee}
             onChange={(ev) => setE2ee(ev.target.checked)}
           />
-          <label
+          <Label
             htmlFor="terms"
             className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
           >
             Включить end-to-end шифрование
-          </label>
+          </Label>
         </div>
         {e2ee && (
           <div className="flex flex-row gap-4">
-            <label htmlFor="passphrase">Мнемоническая фраза</label>
+            <Label htmlFor="passphrase">Мнемоническая фраза</Label>
             <Input
               id="passphrase"
               type="password"
@@ -88,20 +91,15 @@ function DemoMeetingTab({ label }: { label: string }) {
 
 const Home = () => {
   return (
-    <main className="flex w-full h-full items-center justify-center m-auto">
-      <Card className="bg-transparent w-[400px]">
-        <CardHeader>
-          <CardTitle className="mb-5">Управление</CardTitle>
-          <CardDescription className="text-base ">
-            Начните видеозвонок одним щелчком мыши. Просто переходите к
-            разговору, обмену сообщениями и совместному использованию экрана.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <DemoMeetingTab label="Демо" />
-        </CardContent>
-      </Card>
-    </main>
+    <CardWrapper
+      headerLabel="
+      Начните видеозвонок одним щелчком мыши. Просто переходите к разговору,
+      обмену сообщениями и совместному использованию экрана."
+      backButtonLabel="Назад"
+      backButtonHref="/"
+    >
+      <DemoMeetingTab label="Демо" />
+    </CardWrapper>
   );
 };
 

@@ -10,7 +10,10 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import ShowAllToggle from "./show-all-toggle";
 
+
+
 export const Sidebar = async () => {
+
   const recommended = await getRecommended();
   const following = await getFollowedUsers();
 

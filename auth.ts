@@ -40,7 +40,6 @@ export const {
       token.name = existingUser.username;
 
       await setLastLoginById(token.sub);
-      await setStatusById(token.sub, UserStatus.Away)
 
       return token;
     },

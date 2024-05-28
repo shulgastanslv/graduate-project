@@ -32,7 +32,7 @@ const AboutPage = async ({params}: AboutPageProps) => {
                 hostIdentity={user?.id!}
                 bio={user?.bio!}
                 level={level?.toString()!}
-                startedWorking={startedWorking?.toLocaleString()!}
+                startedWorking={user?.startedWorking!}
                 createdAt={user?.createdAt!} 
                 followedByCount={0}               
                  />

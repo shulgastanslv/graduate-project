@@ -35,7 +35,6 @@ export const UserItem = ({
             className={cn(
                 "w-full h-12",
                 collapsed ? "justify-center" : "justfy-start",
-                isActive && "bg-accent",
             )}
         >
             <Link href={href}>
@@ -53,9 +52,9 @@ export const UserItem = ({
                             {username}
                         </p>
                     )}
-                    {!collapsed && isLive && (
+                    {/* {!collapsed && isLive && (
                         <LiveBadge className="ml-auto"/>
-                    )}
+                    )} */}
                 </div>
             </Link>
         </Button>

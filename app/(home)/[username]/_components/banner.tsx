@@ -19,7 +19,7 @@ export const UserBanner = ({
                             alt="banner"
                             objectFit="cover"
                             layout="fill"
-                            className="shadow-sm"
+                            className="shadow-sm blur-sm border border-white/90"
                         />
                     </div>
             ) : (

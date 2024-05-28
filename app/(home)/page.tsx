@@ -44,11 +44,6 @@ export default async function Home() {
   const awayUsers = await getAllUsersByStatus(1);
   const oflineUsers = await getAllUsersByStatus(2);
 
-  const lessThanYearUsers = await getAllUsersWithWorkingTimeLessThanYear();
-  const oneToThreeYearsUsers =
-    await getAllUsersWithWorkingTimeoneToThreeYears();
-  const moreThanThreeYearsUsers = await getAllUsersWithWorkingThanThreeYears();
-
   const juniors = await getAllUsersByLevel(UserLevel.Junior);
   const middle = await getAllUsersByLevel(UserLevel.Middle);
   const seniors = await getAllUsersByLevel(UserLevel.Senior);
@@ -57,6 +52,12 @@ export default async function Home() {
   const days = await getTasksDays(user?.id!);
 
   const meets = await getAllMeets();
+
+  const filteredMeets = meets.filter(meet => {
+    return !meet.user.blockedBy.some(block => block.blockerId === user?.id);
+  });
+  
+  
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
@@ -126,45 +127,6 @@ export default async function Home() {
           </CardContent>
         </Card>
         <Card className="bg-transparent">
-          <CardHeader className="pb-4">
-            <CardTitle>Срок пребывания в компании</CardTitle>
-            <CardDescription>
-              Просмотр стажа работы членов вашей компании
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-3 gap-4">
-              <div className="flex flex-col items-center gap-2">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-500/10">
-                  <ClockIcon className="h-6 w-6 text-green-500" />
-                </div>
-                <div className="text-sm font-medium">Меньше 1 года</div>
-                <div className="text-2xl font-bold">
-                  {lessThanYearUsers.length}
-                </div>
-              </div>
-              <div className="flex flex-col items-center gap-2">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-yellow-500/10">
-                  <ClockIcon className="h-6 w-6 text-yellow-500" />
-                </div>
-                <div className="text-sm font-medium">1-3 года</div>
-                <div className="text-2xl font-bold">
-                  {oneToThreeYearsUsers.length}
-                </div>
-              </div>
-              <div className="flex flex-col items-center gap-2">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-500/10">
-                  <ClockIcon className="h-6 w-6 text-red-500" />
-                </div>
-                <div className="text-sm font-medium">Больше 3 лет</div>
-                <div className="text-2xl font-bold">
-                  {moreThanThreeYearsUsers.length}
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="bg-transparent">
           <CardHeader>
             <CardTitle>Продуктивность</CardTitle>
             <CardDescription>Отслеживайте свою продуктивность</CardDescription>
@@ -194,7 +156,7 @@ export default async function Home() {
         {meets.length === 0 && (
           <p className="opacity-50 text-base">Ничего не найдено.</p>
         )}
-        {meets.map((meeting, index) => (
+        {filteredMeets.map((meeting, index) => (
           <MeetItem
             key={index}
             roomId={meeting.roomId!}

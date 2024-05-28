@@ -61,12 +61,8 @@ export const DeleteItemModal = ({ itemId }: DeleteItemModalProps) => {
     setError("");
     setSuccess("");
 
-    const item = {
-      id: itemId,
-    };
-
     startTransition(() => {
-      deleteItem(item)
+      deleteItem(itemId)
         .then(() => {
           toast.success("Предмет удален!");
           setError("");
@@ -80,8 +76,8 @@ export const DeleteItemModal = ({ itemId }: DeleteItemModalProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="destructive" size="sm" className="ml-auto w-auto h-6">
-          <Trash className="opacity-50 w-4 h-4" />
+        <Button variant="secondary" size="sm" className="ml-auto mt-3">
+          <Trash className="w-4 h-4" />
         </Button>
       </DialogTrigger>
       <DialogContent>

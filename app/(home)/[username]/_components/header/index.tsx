@@ -18,13 +18,10 @@ export const Header = async ({ username, status, imageUrl }: HeaderProps) => {
 
   const self = await getSelf();
 
-
   const user = await getUserByUsername(username);
   const isHost = user?.id == self?.id;
 
-
   const isBlocking = await isBlockedByUser(user?.id!, self?.id!);
-
   const isFollowing = await isFollowingUser(user?.id!, self?.id!);
 
   return (
@@ -42,7 +39,7 @@ export const Header = async ({ username, status, imageUrl }: HeaderProps) => {
             {username}
             <VerifiedMark />
           </div>
-          <p className="text-sm font-semibold">{status}</p>
+          <p className="text-sm opacity-50">{status}</p>
         </div>
       </div>
       <Actions

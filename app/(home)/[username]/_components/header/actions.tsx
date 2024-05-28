@@ -58,7 +58,6 @@ export const Actions = ({
         }
     }
 
-
     const handleBlock = () => {
         startTransition(() => {
             onBlock(hostIdentity)
@@ -90,7 +89,7 @@ export const Actions = ({
         <div className="flex gap-2">
 
             <Button
-                disabled={isPending || isHost}
+                disabled={isPending || isHost || isFollowing == true}
                 onClick={toggleBlock}
                 variant="secondary"
                 size="sm"
@@ -103,7 +102,7 @@ export const Actions = ({
                 }
             </Button>
             <Button
-                disabled={isPending || isHost}
+                disabled={isPending || isHost || isBlocking == true}
                 onClick={toggleFollow}
                 variant="secondary"
                 size="sm"

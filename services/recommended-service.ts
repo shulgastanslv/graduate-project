@@ -2,6 +2,7 @@ import {db} from "@/db";
 import {getSelf} from "@/services/session-service";
 
 export const getRecommended = async () => {
+    
     let userId;
 
     try {

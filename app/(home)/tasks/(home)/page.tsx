@@ -13,11 +13,9 @@ const TasksPage = async () => {
       </div>
       <div className="grid gap-4">
         {tasks.length == 0 && (
-          <Card className="p-5">
-            <CardContent className="flex items-center justify-between pt-5">
-              <p className="text-lg">У вас нет задач.</p>
-            </CardContent>
-          </Card>
+          <div className="w-full h-full items-center justify-center m-auto">
+            <p className="text-base opacity-50">У вас нет задач.</p>
+          </div>
         )}
         {tasks.map((task) => (
           <Task key={task.id} task={task} />
