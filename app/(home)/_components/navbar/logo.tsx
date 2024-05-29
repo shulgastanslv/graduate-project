@@ -7,10 +7,12 @@ import { deleteMeet } from "@/actions/meet";
 
 export const Logo = async () => {
 
-    await deleteMeet()
+    async function deleteMt () {
+        await deleteMeet()
+    }
 
     return (
-        <Link href="/">
+        <Link href="/" onClick={deleteMt}>
             <div className="flex items-center marker:hover:opacity-75 transition">
                 <div className="rounded-full p-1 mr-12 shrink-0 lg:mr-0 lg:shrink">
                         <Image
