@@ -153,7 +153,7 @@ export default async function Home() {
         </Card>
       </div>
       <div>
-        <p>Текущие звонки</p>
+      <p className="text-lg font-medium">Текущие звонки</p>
         {meets.length === 0 && (
           <p className="opacity-50 text-base">Ничего не найдено.</p>
         )}

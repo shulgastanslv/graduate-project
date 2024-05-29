@@ -94,7 +94,7 @@ function DemoMeetingTab({ label }: { label: string }) {
 const Home = () => {
   return (
     <Card>
-      <CardContent className="w-[300px] h-max py-72 items-center justify-center flex flex-col">
+      <CardContent className="w-[400px] py-10 shadow-md bg-transparent">
         <DemoMeetingTab label="Демо" />
       </CardContent>
     </Card>

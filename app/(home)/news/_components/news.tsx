@@ -40,7 +40,7 @@ const News = ({ news }: NewsProps) => {
                 <CardContent className="p-4">
                   <h3 className="text-lg font-bold mb-2">{newsItem.title}</h3>
                   <p className="text-gray-500 mb-4">{newsItem.name}</p>
-                  <Link className="text-blue-500 hover:underline" href="#">
+                  <Link className="text-base hover:underline" href="#">
                     Читать
                   </Link>
                 </CardContent>
