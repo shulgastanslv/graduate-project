@@ -17,7 +17,7 @@ export const Logo = () => {
     startTransition(() => {
       deleteMeet()
         .then(() => {
-          toast.success("Звонок завершен!");
+          console.log("Звонок завершен!");
         })
     });
   };
