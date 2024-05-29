@@ -44,11 +44,10 @@ export const deleteMeet = async () => {
     return false;
   } else {
     await endMeet(res?.roomId!);
-  }
-  const status = await setStatusById(self?.id!, UserStatus.Away);
-
-  if (!status) {
-    return false;
+    const status = await setStatusById(self?.id!, UserStatus.Away);
+    if (!status) {
+      return false;
+    }
   }
 
   return true;

@@ -89,17 +89,15 @@ function DemoMeetingTab({ label }: { label: string }) {
   );
 }
 
+// Начните видеозвонок одним щелчком мыши. Просто переходите к разговору,
+//       обмену сообщениями и совместному использованию экрана.
 const Home = () => {
   return (
-    <CardWrapper
-      headerLabel="
-      Начните видеозвонок одним щелчком мыши. Просто переходите к разговору,
-      обмену сообщениями и совместному использованию экрана."
-      backButtonLabel="Назад"
-      backButtonHref="/"
-    >
-      <DemoMeetingTab label="Демо" />
-    </CardWrapper>
+    <Card>
+      <CardContent className="w-[300px] h-max py-72 items-center justify-center flex flex-col">
+        <DemoMeetingTab label="Демо" />
+      </CardContent>
+    </Card>
   );
 };
 

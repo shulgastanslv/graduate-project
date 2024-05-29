@@ -51,9 +51,6 @@ export default async function UserLayout({
             imageUrl={user?.imageUrl!}
           />
           <NavMenu username={user?.username!} />
-          <div className="mt-5">
-            <Search />
-          </div>
           <div className="pt-5">
             {React.Children.map(children, (child) =>
               React.cloneElement(child as React.ReactElement, {

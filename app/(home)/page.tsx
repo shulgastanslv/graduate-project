@@ -36,6 +36,7 @@ import { currentUser, getSelf } from "@/services/session-service";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { getAllMeets } from "@/services/meet-service";
 import MeetItem from "./_components/meet-item";
+import { deleteMeet } from "@/actions/meet";
 
 export default async function Home() {
   const user = await getSelf();
@@ -57,7 +58,7 @@ export default async function Home() {
     return !meet.user.blockedBy.some(block => block.blockerId === user?.id);
   });
   
-  
+  await deleteMeet()
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">

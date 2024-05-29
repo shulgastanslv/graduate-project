@@ -1,7 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
+import { endMeet, getMeetByUserId } from "@/services/meet-service";
+import { useSearchParams } from "next/navigation";
+import { getSelf } from "@/services/session-service";
+import { deleteMeet } from "@/actions/meet";
 
-export const Logo = () => {
+export const Logo = async () => {
+
+    await deleteMeet()
 
     return (
         <Link href="/">
