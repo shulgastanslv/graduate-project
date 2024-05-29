@@ -78,10 +78,10 @@ const Home = () => {
   const onLeave = React.useCallback(async () => {
     const result = await deleteMeet();
     if (result) {
-      toast.success("Вы покинули звонок!");
       router.push("/");
     } else {
-      toast.error("Ошибка! Не удалось завершить звонок!");
+      console.log("Ошибка! Не удалось завершить звонок!");
+      router.push("/");
     }
   }, [router]);
 
